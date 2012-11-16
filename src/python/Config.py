@@ -29,5 +29,5 @@ class Config(Configuration):
 
     views = self.section_('views')
     data = views.section_('data')
-    data.object = 'SiteDB.Data.Data'
+    data.object = 'T0WmaDataSvc.Data.Data'
     data.db = db or 't0auth.dbparam'

@@ -9,7 +9,9 @@ systems = \
 {
   'T0WmaDataSvc':
   {
-    'python': ['T0WmaDataSvc']
+    'python': ['T0WmaDataSvc'],
+    'data': [],
+    'bin': []
   }
 }
 

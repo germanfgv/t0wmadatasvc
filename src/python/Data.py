@@ -1,5 +1,5 @@
 from WMCore.REST.Server import DatabaseRESTApi
-from T0WmaDataSvc.DataWhoAmI import *
+from T0WmaDataSvc.DataHello import *
 
 class Data(DatabaseRESTApi):
   """Server object for REST data access API."""
