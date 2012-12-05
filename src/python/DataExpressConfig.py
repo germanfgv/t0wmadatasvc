@@ -3,7 +3,6 @@ from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
-from cherrypy import log
 
 class ExpressConfig(RESTEntity):
   """REST entity for retrieving an specific run."""
@@ -55,13 +54,16 @@ class ExpressConfig(RESTEntity):
     else :
         c, _ = self.api.execute(sql % (sqlWhereWithoutRun, ''))
 
-    # We HAVE TO rely on the select positions, which should be fine, let me know if there's a better way 
-    (run, stream, processingVersion, globalTag, release, scenario) = c.fetchall()[0]
-    responseDict = { "expversion"   :   release,
-                 "run_id"       :   run,
-                 "scenario"     :   scenario,
-                 "proc_version" :   processingVersion,
-                 "global_tag"   :   globalTag,
-                 "stream"       :   stream }
+    streams = []
+    for stream in c.fetchall():
+        (run, stream, processingVersion, globalTag, release, scenario) = stream
 
-    return str(responseDict) 
+        streamDict = { "expversion"   :   release,
+                     "run_id"       :   run,
+                     "scenario"     :   scenario,
+                     "proc_version" :   processingVersion,
+                     "global_tag"   :   globalTag,
+                     "stream"       :   stream }
+        streams.append(streamDict)
+
+    return str(streams)
