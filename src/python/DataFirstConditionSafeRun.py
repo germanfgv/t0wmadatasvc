@@ -15,31 +15,22 @@ class FirstConditionSafeRun(RESTEntity):
   def get(self):
     """Latest run which has not released PromptReco yet
 
-    :returns: Latest run which has not released PromptReco yet'"""
+    :returns: Latest run which has not released PromptReco yet"""
 
-    sql = """WITH reco_locked AS (
-              SELECT reco_release_config.run_id AS run_id,
-                     CASE
-                       WHEN MAX(reco_release_config.released) = 0 AND
-                            ( MAX(run.end_time) = 0 OR
-                              MAX(run.end_time) + MIN(reco_release_config.delay - reco_release_config.delay_offset) > 0 ) THEN 0
-                       ELSE 1
-                     END AS locked
-              FROM reco_release_config
-              INNER JOIN run ON
-                run.run_id = reco_release_config.run_id
-              GROUP BY reco_release_config.run_id
-            )
-            SELECT MIN(run_id) AS run_id
-            FROM reco_locked
-            WHERE locked = 0
-            AND run_id > ( SELECT MAX(run_id)
-                           FROM reco_locked
-                           WHERE locked = 1 )"""
+    sql = """WITH t AS ( SELECT MIN(run) AS run
+                         FROM reco_locked
+                         WHERE locked = 0
+                         AND run > NVL( ( SELECT MAX(run)
+                                          FROM reco_locked
+                                          WHERE locked = 1 ), 0 ) )
+             SELECT CASE
+                      WHEN t.run IS NOT NULL THEN t.run
+                      ELSE ( SELECT MAX(run) + 1
+                             FROM reco_locked )
+                    END
+             FROM t
+             """
 
     c, _ = self.api.execute(sql)
-    responseRun = c.fetchall()[0][0]
-    # Just making it compatible to the previous system
-    response = str(responseRun)
-    
-    return response
+
+    return str(c.fetchall()[0][0])

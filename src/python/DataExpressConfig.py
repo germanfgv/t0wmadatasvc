@@ -8,62 +8,54 @@ class ExpressConfig(RESTEntity):
   """REST entity for retrieving an specific run."""
   def validate(self, apiobj, method, api, param, safe):
     """Validate request input data."""
-    validate_str('run_id', param, safe, RX_RUNID, optional = True)
+    validate_str('run', param, safe, RX_RUN, optional = True)
     validate_str('stream', param, safe, RX_STREAM, optional = True)
 
 
   @restcall
   @tools.expires(secs=300)
-  def get(self,run_id, stream):
-    """Retrieve Express configuration from a specific run id.
+  def get(self,run, stream):
+    """Retrieve Express configuration for a specific run (and stream)
 
-    :arg int run_id: the run id number 
-    :returns: CMSSW Release, Global Tag, Run number, Scenario"""
+    :arg int run: the run number (latest if not specified)
+    :arg str stream: the stream name (optional, otherwise queries for all)
+    :returns: Run number, CMSSW Release, Global Tag, Scenario"""
 
-    sqlWhereWithRun="express_config.run_id = :run_id"
-    sqlWhereWithoutRun="express_config.run_id = (select max(run_id) from express_config)"
-    sqlWhereOptionStream=" AND stream.name = :stream"
+    sqlWhereWithRun="express_config.run = :run"
+    sqlWhereWithoutRun="express_config.run = (select max(run) from express_config)"
+    sqlWhereOptionStream=" AND express_config.stream = :stream"
 
-    sql = """SELECT express_config.run_id AS run_id,
-                                   stream.name AS stream,
-                                   express_config.proc_version AS proc_version,
-                                   express_config.global_tag AS global_tag,
-                                   cmssw_version.name AS expversion,
-                                   event_scenario.name AS scenario
-                            FROM express_config
-                            INNER JOIN stream ON
-                              stream.id = express_config.stream_id
-                            INNER JOIN run_stream_cmssw_assoc ON
-                              run_stream_cmssw_assoc.run_id = express_config.run_id AND
-                              run_stream_cmssw_assoc.stream_id = express_config.stream_id
-                            INNER JOIN cmssw_version ON
-                              cmssw_version.id = run_stream_cmssw_assoc.override_version
-                            INNER JOIN stream_special_primds_assoc ON
-                              stream_special_primds_assoc.stream_id = express_config.stream_id
-                            INNER JOIN run_primds_scenario_assoc ON
-                              run_primds_scenario_assoc.run_id = express_config.run_id AND
-                              run_primds_scenario_assoc.primds_id = stream_special_primds_assoc.primds_id
-                            INNER JOIN event_scenario ON
-                              event_scenario.id = run_primds_scenario_assoc.scenario_id
-                            WHERE %s %s"""
+    sql = """SELECT express_config.run,
+                    express_config.stream,
+                    express_config.cmssw,
+                    express_config.scram_arch,
+                    express_config.reco_cmssw,
+                    express_config.reco_scram_arch,
+                    express_config.global_tag,
+                    express_config.scenario
+             FROM express_config
+             WHERE %s %s"""
 
-    if run_id is not None and stream is None :
-        c, _ = self.api.execute(sql % (sqlWhereWithRun, ''), run_id = run_id)
-    elif run_id is not None and stream is not None :
-        c, _ = self.api.execute(sql % (sqlWhereWithRun, sqlWhereOptionStream), run_id = run_id, stream = stream)
+    if run is not None and stream is None :
+        c, _ = self.api.execute(sql % (sqlWhereWithRun, ''), run = run)
+    elif run is not None and stream is not None :
+        c, _ = self.api.execute(sql % (sqlWhereWithRun, sqlWhereOptionStream), run = run, stream = stream)
     else :
         c, _ = self.api.execute(sql % (sqlWhereWithoutRun, ''))
 
-    streams = []
-    for stream in c.fetchall():
-        (run, stream, processingVersion, globalTag, release, scenario) = stream
+    configs = []
+    for result in c.fetchall():
 
-        streamDict = { "expversion"   :   release,
-                     "run_id"       :   run,
-                     "scenario"     :   scenario,
-                     "proc_version" :   processingVersion,
-                     "global_tag"   :   globalTag,
-                     "stream"       :   stream }
-        streams.append(streamDict)
+        (run, stream, cmssw, scram_arch, reco_cmssw, reco_scram_arch, global_tag, scenario) = result
 
-    return str(streams)
+        config = { "run" : run,
+                   "stream" : stream,
+                   "cmssw" : cmssw,
+                   "scram_arch" : scram_arch,
+                   "reco_cmssw" : reco_cmssw,
+                   "reco_scram_arch" : reco_scram_arch,
+                   "global_tag" : global_tag,
+                   "scenario" : scenario }
+        configs.append(config)
+
+    return str(configs)
