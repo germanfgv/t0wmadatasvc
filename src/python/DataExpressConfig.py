@@ -19,7 +19,7 @@ class ExpressConfig(RESTEntity):
 
     :arg int run: the run number (latest if not specified)
     :arg str stream: the stream name (optional, otherwise queries for all)
-    :returns: Run number, CMSSW Release, Global Tag, Scenario"""
+    :returns: Run, Stream, CMSSW, ScramArch, AlcaSkims, DqmSeq, GlobalTag, Scenario"""
 
     sqlWhereWithRun="express_config.run = :run"
     sqlWhereWithoutRun="express_config.run = (select max(run) from express_config)"
@@ -31,6 +31,8 @@ class ExpressConfig(RESTEntity):
                     express_config.scram_arch,
                     express_config.reco_cmssw,
                     express_config.reco_scram_arch,
+                    express_config.alca_skim,
+                    express_config.dqm_seq,
                     express_config.global_tag,
                     express_config.scenario
              FROM express_config
@@ -46,7 +48,7 @@ class ExpressConfig(RESTEntity):
     configs = []
     for result in c.fetchall():
 
-        (run, stream, cmssw, scram_arch, reco_cmssw, reco_scram_arch, global_tag, scenario) = result
+        (run, stream, cmssw, scram_arch, reco_cmssw, reco_scram_arch, alca_skim, dqm_seq, global_tag, scenario) = result
 
         config = { "run" : run,
                    "stream" : stream,
@@ -54,6 +56,8 @@ class ExpressConfig(RESTEntity):
                    "scram_arch" : scram_arch,
                    "reco_cmssw" : reco_cmssw,
                    "reco_scram_arch" : reco_scram_arch,
+                   "alca_skim" : alca_skim,
+                   "dqm_seq" : dqm_seq,
                    "global_tag" : global_tag,
                    "scenario" : scenario }
         configs.append(config)
