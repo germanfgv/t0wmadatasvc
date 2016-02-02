@@ -2,7 +2,7 @@ from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
 from T0WmaDataSvc.Regexps import *
-import cherrypy
+import json
 
 class Hello(RESTEntity):
   """REST entity describing the calling user."""
@@ -20,4 +20,4 @@ class Hello(RESTEntity):
 
     :returns: world"""
 
-    return rows(["world"])
+    return json.dumps(rows(["world"]))

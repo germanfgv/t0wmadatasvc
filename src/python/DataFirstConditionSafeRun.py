@@ -3,6 +3,7 @@ from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
+import json
 
 class FirstConditionSafeRun(RESTEntity):
   """REST entity for retrieving an specific run."""
@@ -33,4 +34,4 @@ class FirstConditionSafeRun(RESTEntity):
 
     c, _ = self.api.execute(sql)
 
-    return str(c.fetchall()[0][0])
+    return json.dumps(c.fetchall()[0][0])
