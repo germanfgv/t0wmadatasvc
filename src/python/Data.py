@@ -1,7 +1,6 @@
 from WMCore.REST.Server import DatabaseRESTApi
 from WMCore.REST.Format import RawFormat
 from T0WmaDataSvc.DataHello import *
-from T0WmaDataSvc.DataRun import *
 from T0WmaDataSvc.DataRecoConfig import *
 from T0WmaDataSvc.DataExpressConfig import *
 from T0WmaDataSvc.DataFirstConditionSafeRun import *
@@ -24,5 +23,5 @@ class Data(DatabaseRESTApi):
                 "reco_config": RecoConfig(app, self, config, mount),
                 "firstconditionsaferun": FirstConditionSafeRun(app, self, config, mount),
                 "run_stream_done": RunStreamDone(app, self, config, mount),
-                "dataset_locked": DatasetLocked((app, self, config, mount)
+                "dataset_locked": DatasetLocked(app, self, config, mount)
                 })
