@@ -20,4 +20,4 @@ class Hello(RESTEntity):
 
     :returns: world"""
 
-    return json.dumps(rows(["world"]))
+    return json.dumps("world")
