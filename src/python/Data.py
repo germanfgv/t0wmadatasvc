@@ -5,6 +5,8 @@ from T0WmaDataSvc.DataRun import *
 from T0WmaDataSvc.DataRecoConfig import *
 from T0WmaDataSvc.DataExpressConfig import *
 from T0WmaDataSvc.DataFirstConditionSafeRun import *
+from T0WmaDataSvc.DataRunStreamDone import *
+from T0WmaDataSvc.DataDatasetLocked import *
 
 class Data(DatabaseRESTApi):
   """Server object for REST data access API."""
@@ -18,9 +20,9 @@ class Data(DatabaseRESTApi):
     # Makes raw format as default
     self.formats.insert(0, ('application/raw', RawFormat()))
     self._add({ "hello": Hello(app, self, config, mount),
-                "runid": RunId(app, self, config, mount),
-                "run":   Run(app, self, config, mount),
                 "express_config": ExpressConfig(app, self, config, mount),
                 "reco_config": RecoConfig(app, self, config, mount),
-                "firstconditionsaferun": FirstConditionSafeRun(app, self, config, mount)
+                "firstconditionsaferun": FirstConditionSafeRun(app, self, config, mount),
+                "run_stream_done": RunStreamDone(app, self, config, mount),
+                "dataset_locked": DatasetLocked((app, self, config, mount)
                 })

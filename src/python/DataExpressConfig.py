@@ -3,6 +3,7 @@ from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
+import json
 
 class ExpressConfig(RESTEntity):
   """REST entity for retrieving an specific run."""
@@ -62,4 +63,4 @@ class ExpressConfig(RESTEntity):
                    "scenario" : scenario }
         configs.append(config)
 
-    return str(configs)
+    return json.dumps(configs)
