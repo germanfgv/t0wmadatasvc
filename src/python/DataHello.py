@@ -1,7 +1,6 @@
 from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
-from WMCore.REST.Format import JSONFormat,XMLFormat
 from T0WmaDataSvc.Regexps import *
 import json
 
@@ -11,7 +10,7 @@ class Hello(RESTEntity):
     """Validate request input data."""
     pass
 
-  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
+  @restcall
   @tools.expires(secs=-1)
   def get(self):
     """Hello world api call.
