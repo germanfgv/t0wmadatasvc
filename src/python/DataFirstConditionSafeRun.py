@@ -1,7 +1,6 @@
 from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
-from WMCore.REST.Format import JSONFormat,XMLFormat
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
 import json
@@ -12,7 +11,7 @@ class FirstConditionSafeRun(RESTEntity):
   def validate(self, apiobj, method, api, param, safe):
     """Validate request input data. In this case there is no input data"""
 
-  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
+  @restcall
   @tools.expires(secs=300)
   def get(self):
     """Latest run which has not released PromptReco yet

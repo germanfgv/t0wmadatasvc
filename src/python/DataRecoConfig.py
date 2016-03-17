@@ -1,7 +1,6 @@
 from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
-from WMCore.REST.Format import JSONFormat,XMLFormat
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
 import json
