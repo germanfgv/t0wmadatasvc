@@ -11,7 +11,7 @@ class DatasetLocked(RESTEntity):
     """Validate request input data."""
     pass
 
-  @restcall
+  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
   @tools.expires(secs=300)
   def get(self):
     """Retrieve list of locked datasets
@@ -28,4 +28,4 @@ class DatasetLocked(RESTEntity):
       if result[0]:
         datasets.append(result[0])
 
-    return json.dumps(sorted(datasets))
+    return sorted(datasets)

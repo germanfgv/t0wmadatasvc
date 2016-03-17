@@ -13,7 +13,7 @@ class RunStreamDone(RESTEntity):
     validate_str('stream', param, safe, RX_STREAM, optional = False)
 
 
-  @restcall
+  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
   @tools.expires(secs=300)
   def get(self,run, stream):
     """Check run/stream processing status
@@ -29,4 +29,4 @@ class RunStreamDone(RESTEntity):
 
     c, _ = self.api.execute(sql, run = run, stream = stream)
 
-    return json.dumps(c.fetchall()[0][0] == 1)
+    return (c.fetchall()[0][0] == 1)
