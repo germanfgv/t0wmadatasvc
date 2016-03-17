@@ -13,7 +13,7 @@ class ExpressConfig(RESTEntity):
     validate_str('stream', param, safe, RX_STREAM, optional = True)
 
 
-  @restcall
+  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
   @tools.expires(secs=300)
   def get(self,run, stream):
     """Retrieve Express configuration for a specific run (and stream)
@@ -63,4 +63,4 @@ class ExpressConfig(RESTEntity):
                    "scenario" : scenario }
         configs.append(config)
 
-    return json.dumps(configs)
+    return configs

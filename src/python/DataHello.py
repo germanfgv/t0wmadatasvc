@@ -10,7 +10,7 @@ class Hello(RESTEntity):
     """Validate request input data."""
     pass
 
-  @restcall
+  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
   @tools.expires(secs=-1)
   def get(self):
     """Hello world api call.
@@ -20,4 +20,4 @@ class Hello(RESTEntity):
 
     :returns: world"""
 
-    return json.dumps("world")
+    return "world"

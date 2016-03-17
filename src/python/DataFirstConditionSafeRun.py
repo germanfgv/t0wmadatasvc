@@ -11,7 +11,7 @@ class FirstConditionSafeRun(RESTEntity):
   def validate(self, apiobj, method, api, param, safe):
     """Validate request input data. In this case there is no input data"""
 
-  @restcall
+  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
   @tools.expires(secs=300)
   def get(self):
     """Latest run which has not released PromptReco yet
@@ -34,4 +34,4 @@ class FirstConditionSafeRun(RESTEntity):
 
     c, _ = self.api.execute(sql)
 
-    return json.dumps(c.fetchall()[0][0])
+    return c.fetchall()[0][0]
