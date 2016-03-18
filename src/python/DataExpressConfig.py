@@ -1,9 +1,9 @@
 from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
+from WMCore.REST.Format import JSONFormat, PrettyJSONFormat
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
-import json
 
 class ExpressConfig(RESTEntity):
   """REST entity for retrieving an specific run."""
@@ -12,8 +12,7 @@ class ExpressConfig(RESTEntity):
     validate_str('run', param, safe, RX_RUN, optional = True)
     validate_str('stream', param, safe, RX_STREAM, optional = True)
 
-
-  @restcall
+  @restcall(formats=[('text/plain', PrettyJSONFormat()), ('application/json', JSONFormat())])
   @tools.expires(secs=300)
   def get(self,run, stream):
     """Retrieve Express configuration for a specific run (and stream)

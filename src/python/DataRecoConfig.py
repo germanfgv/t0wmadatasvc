@@ -1,9 +1,9 @@
 from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
+from WMCore.REST.Format import JSONFormat, PrettyJSONFormat
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
-import json
 
 class RecoConfig(RESTEntity):
   """REST entity for retrieving an specific run."""
@@ -12,7 +12,7 @@ class RecoConfig(RESTEntity):
     validate_str('run', param, safe, RX_RUN, optional = True)
     validate_str('primary_dataset', param, safe, RX_PRIMARY_DATASET, optional = True)
 
-  @restcall
+  @restcall(formats=[('text/plain', PrettyJSONFormat()), ('application/json', JSONFormat())])
   @tools.expires(secs=300)
   def get(self,run, primary_dataset):
     """Retrieve Reco configuration for a specific run (and primary dataset)
