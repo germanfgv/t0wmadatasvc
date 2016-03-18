@@ -12,7 +12,7 @@ class RecoConfig(RESTEntity):
     validate_str('run', param, safe, RX_RUN, optional = True)
     validate_str('primary_dataset', param, safe, RX_PRIMARY_DATASET, optional = True)
 
-  @restcall(formats=[('application/json', JSONFormat()), ('application/xml', XMLFormat())])
+  @restcall
   @tools.expires(secs=300)
   def get(self,run, primary_dataset):
     """Retrieve Reco configuration for a specific run (and primary dataset)
