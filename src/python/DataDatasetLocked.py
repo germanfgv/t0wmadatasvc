@@ -1,17 +1,16 @@
 from WMCore.REST.Server import RESTEntity, restcall, rows
 from WMCore.REST.Tools import tools
 from WMCore.REST.Validation import *
+from WMCore.REST.Format import JSONFormat, PrettyJSONFormat
 from T0WmaDataSvc.Regexps import *
 from operator import itemgetter
-import json
 
 class DatasetLocked(RESTEntity):
   """REST entity for retrieving list of locked datasets."""
   def validate(self, apiobj, method, api, param, safe):
     """Validate request input data."""
-    pass
 
-  @restcall
+  @restcall(formats=[('text/plain', PrettyJSONFormat()), ('application/json', JSONFormat())])
   @tools.expires(secs=300)
   def get(self):
     """Retrieve list of locked datasets
