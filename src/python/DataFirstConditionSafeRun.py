@@ -34,4 +34,4 @@ class FirstConditionSafeRun(RESTEntity):
 
     c, _ = self.api.execute(sql)
 
-    return c.fetchall()[0][0]
+    return str(c.fetchall()[0][0])
