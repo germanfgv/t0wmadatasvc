@@ -28,4 +28,4 @@ class RunStreamDone(RESTEntity):
 
     c, _ = self.api.execute(sql, run = run, stream = stream)
 
-    return (c.fetchall()[0][0] == 1)
+    return [ c.fetchall()[0][0] == 1 ]
