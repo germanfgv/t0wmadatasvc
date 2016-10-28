@@ -44,3 +44,9 @@ CREATE TABLE dataset_locked (
   path varchar2(1000) not null,
   primary key (path)
 ) ORGANIZATION INDEX;
+
+CREATE TABLE run_config (
+  run int not null,
+  acq_era varchar2(255) not null,
+  primary key (run)
+) ORGANIZATION INDEX;
