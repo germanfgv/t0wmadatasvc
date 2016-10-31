@@ -22,7 +22,8 @@ class RunConfig(RESTEntity):
     sqlWhereWithRun="run_config.run = :run"
     sqlWhereWithoutRun="run_config.run = (select max(run) from run_config)"
 
-    sql = """SELECT run_config.acq_era
+    sql = """SELECT run_config.run,
+                    run_config.acq_era
              FROM run_config
              WHERE %s"""
 
@@ -37,7 +38,7 @@ class RunConfig(RESTEntity):
       (run, acq_era) = result
 
       config = { "run" : run,
-                 "acq_era" : acq_era } )
+                 "acq_era" : acq_era }
       configs.append(config)
 
     return configs
