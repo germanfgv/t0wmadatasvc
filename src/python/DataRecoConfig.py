@@ -28,6 +28,7 @@ class RecoConfig(RESTEntity):
     sql = """SELECT reco_config.run,
                     reco_config.primds,
                     reco_config.cmssw,
+                    reco_config.scram_arch,
                     reco_config.alca_skim,
                     reco_config.physics_skim,
                     reco_config.dqm_seq,
@@ -46,11 +47,12 @@ class RecoConfig(RESTEntity):
     configs = []
     for result in c.fetchall():
 
-        (run, primds, cmssw, alca_skim, physics_skim, dqm_seq, global_tag, scenario) = result
+        (run, primds, cmssw, scram_arch, alca_skim, physics_skim, dqm_seq, global_tag, scenario) = result
 
         config = { "run" : run,
                    "primary_dataset" : primds,
                    "cmssw" : cmssw,
+                   "scram_arch" : scram_arch,
                    "alca_skim" : alca_skim,
                    "physics_skim" : physics_skim,
                    "dqm_seq" : dqm_seq,
