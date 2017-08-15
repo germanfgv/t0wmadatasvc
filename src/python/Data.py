@@ -6,6 +6,7 @@ from T0WmaDataSvc.DataRunConfig import *
 from T0WmaDataSvc.DataExpressConfig import *
 from T0WmaDataSvc.DataFirstConditionSafeRun import *
 from T0WmaDataSvc.DataRunStreamDone import *
+from T0WmaDataSvc.DataRunDatasetDone import *
 from T0WmaDataSvc.DataDatasetLocked import *
 
 class Data(DatabaseRESTApi):
@@ -25,5 +26,6 @@ class Data(DatabaseRESTApi):
                 "run_config": RunConfig(app, self, config, mount),
                 "firstconditionsaferun": FirstConditionSafeRun(app, self, config, mount),
                 "run_stream_done": RunStreamDone(app, self, config, mount),
+                "run_dataset_done": RunDatasetDone(app,self, config, mount),
                 "dataset_locked": DatasetLocked(app, self, config, mount)
                 })

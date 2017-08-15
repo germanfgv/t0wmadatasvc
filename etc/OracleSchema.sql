@@ -40,6 +40,13 @@ CREATE TABLE run_stream_done (
   primary key (run, stream)
 ) ORGANIZATION INDEX;
 
+CREATE TABLE run_primds_done (
+  run int not null,
+  primds varchar2(255) not null,
+  finished int default 0 not null,
+  primary key (run, primds)
+) ORGANIZATION INDEX;
+
 CREATE TABLE dataset_locked (
   path varchar2(1000) not null,
   primary key (path)
