@@ -12,7 +12,7 @@ class PromptRecoStatus(RESTEntity):
 
   @restcall(formats=[('text/plain', PrettyJSONFormat()), ('application/json', JSONFormat())])
   @tools.expires(secs=300)
-  def get(self,run, primary_dataset):
+  def get(self):
     """Retrieve PromptReco status
 
     :returns: PrompReco Status: True(Enable) or False(Disabled)"""
