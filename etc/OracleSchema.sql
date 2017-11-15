@@ -58,6 +58,12 @@ CREATE TABLE run_config (
   primary key (run)
 ) ORGANIZATION INDEX;
 
+CREATE TABLE promptreco_status (
+ status INT NOT NULL,
+ change_time DATE NOT NULL
+);
+INSERT INTO promptreco_status (status, change_time) VALUES (1, CURRENT_TIMESTAMP);
+
 CREATE TABLE FILE_TRANSFER_STATUS_OFFLINE (
   P5_FILEID               NUMBER(27)     NOT NULL,
   FILENAME                VARCHAR2(1000) NOT NULL,

@@ -27,5 +27,6 @@ class Data(DatabaseRESTApi):
                 "firstconditionsaferun": FirstConditionSafeRun(app, self, config, mount),
                 "run_stream_done": RunStreamDone(app, self, config, mount),
                 "run_dataset_done": RunDatasetDone(app,self, config, mount),
-                "dataset_locked": DatasetLocked(app, self, config, mount)
+                "dataset_locked": DatasetLocked(app, self, config, mount),
+                "promptreco_status": PromptRecoStatus(app, self, config, mount)
                 })
