@@ -7,6 +7,7 @@ from T0WmaDataSvc.DataExpressConfig import *
 from T0WmaDataSvc.DataFirstConditionSafeRun import *
 from T0WmaDataSvc.DataRunStreamDone import *
 from T0WmaDataSvc.DataRunDatasetDone import *
+from T0WmaDataSvc.DataPromptRecoStatus import *
 from T0WmaDataSvc.DataDatasetLocked import *
 
 class Data(DatabaseRESTApi):
