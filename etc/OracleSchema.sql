@@ -60,7 +60,7 @@ CREATE TABLE run_config (
 
 CREATE TABLE promptreco_status (
  status INT NOT NULL,
- change_time DATE NOT NULL
+ change_time TIMESTAMP(6) NOT NULL
 );
 INSERT INTO promptreco_status (status, change_time) VALUES (1, CURRENT_TIMESTAMP);
 
