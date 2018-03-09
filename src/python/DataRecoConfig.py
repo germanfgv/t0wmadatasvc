@@ -33,7 +33,12 @@ class RecoConfig(RESTEntity):
                     reco_config.physics_skim,
                     reco_config.dqm_seq,
                     reco_config.global_tag,
-                    reco_config.scenario
+                    reco_config.scenario,
+                    reco_config.multicore,
+                    reco_config.write_reco,
+                    reco_config.write_dqm,
+                    reco_config.write_aod,
+                    reco_config.write_miniaod
              FROM reco_config
              WHERE %s %s"""
 
@@ -47,7 +52,8 @@ class RecoConfig(RESTEntity):
     configs = []
     for result in c.fetchall():
 
-        (run, primds, cmssw, scram_arch, alca_skim, physics_skim, dqm_seq, global_tag, scenario) = result
+        (run, primds, cmssw, scram_arch, alca_skim, physics_skim, dqm_seq,
+         global_tag, scenario, multicore, write_reco, write_dqm, write_aod, write_miniaod) = result
 
         config = { "run" : run,
                    "primary_dataset" : primds,
@@ -57,7 +63,12 @@ class RecoConfig(RESTEntity):
                    "physics_skim" : physics_skim,
                    "dqm_seq" : dqm_seq,
                    "global_tag" : global_tag,
-                   "scenario" : scenario }
+                   "scenario" : scenario,
+                   "multicore" : multicore,
+                   "write_reco": bool(write_reco),
+                   "write_dqm" : bool(write_dqm),
+                   "write_aod" : bool(write_aod),
+                   "write_miniaod" : bool(write_miniaod) }
         configs.append(config)
 
     return configs

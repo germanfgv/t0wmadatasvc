@@ -34,7 +34,10 @@ class ExpressConfig(RESTEntity):
                     express_config.alca_skim,
                     express_config.dqm_seq,
                     express_config.global_tag,
-                    express_config.scenario
+                    express_config.scenario,
+                    express_config.multicore,
+                    express_config.write_tiers,
+                    express_config.write_dqm
              FROM express_config
              WHERE %s %s"""
 
@@ -48,7 +51,8 @@ class ExpressConfig(RESTEntity):
     configs = []
     for result in c.fetchall():
 
-        (run, stream, cmssw, scram_arch, reco_cmssw, reco_scram_arch, alca_skim, dqm_seq, global_tag, scenario) = result
+        (run, stream, cmssw, scram_arch, reco_cmssw, reco_scram_arch, alca_skim,
+         dqm_seq, global_tag, scenario, multicore, write_tiers, write_dqm) = result
 
         config = { "run" : run,
                    "stream" : stream,
@@ -59,7 +63,10 @@ class ExpressConfig(RESTEntity):
                    "alca_skim" : alca_skim,
                    "dqm_seq" : dqm_seq,
                    "global_tag" : global_tag,
-                   "scenario" : scenario }
+                   "scenario" : scenario,
+                   "multicore" : multicore,
+                   "write_tiers" : write_tiers,
+                   "write_dqm" : bool(write_dqm) }
         configs.append(config)
 
     return configs
