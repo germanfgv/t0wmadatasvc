@@ -9,6 +9,7 @@ from T0WmaDataSvc.DataRunStreamDone import *
 from T0WmaDataSvc.DataRunDatasetDone import *
 from T0WmaDataSvc.DataPromptRecoStatus import *
 from T0WmaDataSvc.DataDatasetLocked import *
+from T0WmaDataSvc.DataRepackStats import *
 
 class Data(DatabaseRESTApi):
   """Server object for REST data access API."""
@@ -29,5 +30,6 @@ class Data(DatabaseRESTApi):
                 "run_stream_done": RunStreamDone(app, self, config, mount),
                 "run_dataset_done": RunDatasetDone(app,self, config, mount),
                 "dataset_locked": DatasetLocked(app, self, config, mount),
-                "promptreco_status": PromptRecoStatus(app, self, config, mount)
+                "promptreco_status": PromptRecoStatus(app, self, config, mount),
+                "repack_stats": RepackStats(app, self, config, mount)
                 })
