@@ -30,6 +30,7 @@ CREATE TABLE reco_config (
   write_dqm int default 0 not null,
   write_aod int default 0 not null,
   write_miniaod int default 0 not null,
+  write_nanoaod int default 0 not null,
   alca_skim varchar2(700),
   physics_skim varchar2(700),
   dqm_seq varchar2(700),
